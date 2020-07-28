@@ -47,9 +47,31 @@
                                 	<td><c:out value="${board.bno}" /></td>
                                 </tr>
                                 </c:forEach>
-                                
-                                
                                 </table>
+                                
+								<!-- 페이징처리 -->
+								<div class="pull-right">
+									<ul class="pagination">
+										<c:if test="${pageMaker.prev }">
+											<li class="paginate_button previous">
+												<a href="#"></a>
+											</li>
+										</c:if>
+										
+										<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+											<li class="paginate_button">
+												<a href="#">${num}</a>
+											</li>
+										</c:forEach>
+										
+										<c:if test="${pageMaker.next }">
+											<li class="paginate_button next">
+												<a href="#">Next</a>
+											</li>
+										</c:if>
+									</ul>
+								</div>
+								 <!-- 페이징처리 -->                               
                                 
                                 <!-- modal창 추가 -->
                                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
