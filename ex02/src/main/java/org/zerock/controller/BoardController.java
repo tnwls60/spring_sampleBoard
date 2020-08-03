@@ -64,7 +64,7 @@ public class BoardController {
 		log.info("/get or modify");
 		model.addAttribute("board", service.get(bno));
 	}
-	
+/*	
 	@PostMapping("/modify")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri ,RedirectAttributes rttr) {
 		
@@ -77,6 +77,8 @@ public class BoardController {
 		
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		return "redirect:/board/list";
 	}
@@ -93,10 +95,36 @@ public class BoardController {
 		
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
-		
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";
-		
 	}
+*/
+	@PostMapping("/modify")
+	public String modify(BoardVO board, Criteria cri ,RedirectAttributes rttr) {
+		
+		log.info("modify: " + board);
+		
+		//성공한 경우에만 RedirectAttribute에 추가함
+		if(service.modify(board)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		return "redirect:/board/list" + cri.getListLink();
+	}
+	
+	@PostMapping("/remove")
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
+		
+		log.info("remove..." + bno);
+		
+		//성공한 경우에만 RedirectAttribute에 추가함
+		if (service.remove(bno)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/board/list" + cri.getListLink();
+	}
+	
 	
 	@GetMapping("/register")
 	public void register() {
