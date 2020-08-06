@@ -26,7 +26,9 @@ public class ReplyController {
 
 	private ReplyService service;
 	
-	@PostMapping( value = "/new", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE} )
+	@PostMapping( value = "/new", 
+				  consumes = "application/json", 
+				  produces = { MediaType.TEXT_PLAIN_VALUE })
 		
 		public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
 		log.info("ReplyVO: " + vo);
@@ -36,14 +38,19 @@ public class ReplyController {
 		log.info("Reply INSERT COUNT: " + insertCount);
 		
 		//삼항 연산자 처리
-		return insertCount == 1 ? new ResponseEntity<>("success", HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		
+		return insertCount == 1 
+		? new ResponseEntity<>("success", HttpStatus.OK)
+		: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	} 
 	
 	
-	@GetMapping( value = "/pages/{bno}/{pages}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@GetMapping( value = "/pages/{bno}/{page}",
+				 produces = {MediaType.APPLICATION_XML_VALUE, 
+				 	 MediaType.APPLICATION_JSON_UTF8_VALUE} )
 
-		public ResponseEntity<List<ReplyVO>> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) { 
+		public ResponseEntity<List<ReplyVO>> getList(
+				@PathVariable("page") int page, 
+				@PathVariable("bno") Long bno) { 
 			
 			log.info("getList................");
 			Criteria cri = new Criteria(page, 10);

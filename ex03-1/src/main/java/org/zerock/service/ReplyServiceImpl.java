@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class ReplyServiceImpl implements ReplyService{
 	
+	//setter 대신 클래스 위에 @allargsconstructor로 처리 가능 - 스프링 4.3이상
 	@Setter( onMethod_ = @Autowired )
 	private ReplyMapper mapper;
 	
