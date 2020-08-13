@@ -98,13 +98,14 @@ var replyService = (function(){
 	
 	
 	//날짜 변환
-	function displyTime(timeValue) {
+	function displayTime(timeValue) {
 		var today = new Date();
 		var gap = today.getTime() - timeValue;
 		
 		var dateObj = new Date(timeValue);
 		var str = "";
 		
+		//24시간 이내애 등록되면 시간, 24시간 지난 댓글은 날짜 표시 
 		if (gap < (1000 * 60 * 60 * 24)) {
 			
 			var hh = dateObj.getHours();
@@ -123,7 +124,7 @@ var replyService = (function(){
 	;
 	
 	return {
-		add:add,
+		add : add,
 		getList : getList,
 		remove : remove,
 		update : update,

@@ -77,10 +77,15 @@
 				<!-- /.panel -->
 				<div class="panel panel-default">
 				
-					<div class="panel-heading">
+				<!-- 	<div class="panel-heading">
 						<i class="fa fa-comments fa-fw"></i> Reply
 					</div>
-					
+				 -->
+				 	<div class="panel-heading">
+						<i class="fa fa-comments fa-fw"></i> Reply
+						<button id='addReplyBtn' class="btn btn-primary btn-xs pull-right">New Reply</button>
+					</div>
+				 	
 					<!-- /.panel-heading -->
 					<div class="panel-body">
 						<ul class="chat">
@@ -104,7 +109,42 @@
 				</div>
 				<!-- ./ end row -->	
 			</div>
-			            
+			
+			<!-- modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
+						</div>
+						
+						<div class="modal-body">
+							<div class="form-group">
+								<label>Reply</label>
+								<input class="form-control" name='reply' value='New Reply!'>
+							</div>
+							<div class="form-group">
+								<label>Replyer</label>
+								<input class="form-control" name='replyer' value='replyer'>
+							</div>
+							<div class="form-group">
+								<label>Reply Date</label>
+								<input class="form-control" name='replyDate' value=''>
+							</div>
+						</div>
+						
+						<div class="modal-footer">
+							<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+							<button id='modalRemoveBtn' type="button" class="btn btn-warning">Remove</button>
+							<button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+							<button id='modalClassBtn' type="button" class="btn btn-default" data-dismiss='modal'>Close</button>
+						</div>
+						
+					</div> <!-- /.modal-content -->
+				</div> <!-- /.modal-dialog -->
+			</div>	<!-- /.modal -->		            
             
             
             <script type="text/javascript" src="/resources/js/reply.js"></script>
@@ -154,14 +194,77 @@
 			 				for (var i = 0, len = list.length || 0; i < len; i++){
 			 					str += "<li class='left clearfix' data-rno='"+list[i].rno+"'>";
 			 					str += "	<div><div class='header'><strong class='primary-font'>" + list[i].replyer + "</strong>";
-			 					str += "		<small class='pull-right text-muted'>" + list[i].replyDate + "</small></div>";
+			 					str += "		<small class='pull-right text-muted'>" + replyService.displayTime(list[i].replyDate) + "</small></div>";
 			 					str += "		<p>" + list[i].reply + "</p></div></li>";
 			 				}
 			 				
 			 				replyUL.html(str);
 			 			});	//end function
 			 		}//end showList
-			 	});
+			 		
+			 		var modal = $(".modal");
+			 		var modalInputReply = modal.find("input[name='reply']");
+			 		var modalInputReplyer = modal.find("input[name='replyer']");
+			 		var modalInputReplyDate = modal.find("input[name='replyDate']");
+			 		
+			 		var modalModBtn = $("#modalModBtn");
+			 		var modalRemoveBtn = $("#modalRemoveBtn");
+			 		var modalRegisterBtn = $("#modalRegisterBtn");
+			 		
+			 		$("#addReplyBtn").on("click", function(e){
+			 			
+			 			modal.find("input").val("");
+			 			modalInputReplyDate.closest("div").hide();
+			 			modal.find("button[id != 'modalCloseBtn']").hide();
+			 			
+			 			modalRegisterBtn.show();
+			 			
+			 			$(".modal").modal("show");
+			 			
+			 		});
+			 		
+			 		modalRegisterBtn.on("click", function(e){
+			 			
+			 			var reply = {
+			 				reply: modalInputReply.val(),
+			 				replyer: modalInputReplyer.val(),
+			 				bno:bnoValue
+			 			};
+			 			replyService.add(reply, function(result){
+			 				
+			 				alert(result);
+			 				
+			 				modal.find("input").val("");
+			 				modal.modal("hide");
+			 				
+			 				showList(1);
+			 				
+			 			});
+			 			
+			 		//댓글 조회 클릭 이벤트 처리
+			 		$(".chat").on("click", "li", function(e){
+			 			
+			 			 var rno = $(this).data("rno");
+			 			
+			 				replyService.get(rno, function(reply){
+			 					
+			 					modalInputReply.val(reply.reply);
+			 					modalInputReplyer.val(reply.replyer);
+			 					modalInputReplyDate.val(replyService.displayTime( reply.replyDate)).attr("readonly", "readonly");
+			 					modal.data("rno", reply.rno);
+			 					
+			 					modal.find("button[id != 'modalCloseBtn']").hide();
+			 					modalModBtn.show();
+			 					modalRemoveBtn.show();
+			 					
+			 					$(".modal").modal("show");
+			 				}); 
+			 			});
+			 		
+			 		
+			 		
+			 		});
+			 	});	
 			 
 			 
 				/* console.log("============");
