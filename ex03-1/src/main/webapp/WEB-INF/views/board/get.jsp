@@ -351,7 +351,7 @@
 			 				
 			 				alert(result);
 			 				modal.modal("hide");
-			 				showList(1);
+			 				showList(pageNum);
 			 			});
 			 		});
 			 		
@@ -365,7 +365,7 @@
 			 				
 			 				alert(result);
 			 				modal.modal("hide");
-			 				showList(1);
+			 				showList(pageNum);
 
 			 			});
 			 		});
