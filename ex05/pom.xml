@@ -132,6 +132,13 @@
 		    <artifactId>thumbnailator</artifactId>
 		    <version>0.4.8</version>
 		</dependency>
+		
+		<dependency>
+		  <groupId>org.aspectj</groupId>
+		  <artifactId>aspectjweaver</artifactId>
+		  <version>1.8.9</version>
+		</dependency>
+				
 		<!-- 추가 -->
 	
 		<!--03-1에서 복사 -->

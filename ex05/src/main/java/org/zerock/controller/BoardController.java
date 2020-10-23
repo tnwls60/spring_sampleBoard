@@ -57,9 +57,9 @@ public class BoardController {
 		}
 		log.info("===============================");
 		
-		//service.register(board);
+		service.register(board);
 		
-		//rttr.addFlashAttribute("result", board.getBno());
+		rttr.addFlashAttribute("result", board.getBno());
 		
 		return "redirect:/board/list";
 	}
