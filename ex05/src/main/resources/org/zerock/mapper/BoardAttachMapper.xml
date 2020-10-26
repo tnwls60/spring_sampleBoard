@@ -13,6 +13,10 @@
 		delete from tbl_attach where uuid = #{uuid}
 	</delete>
 	
+	<delete id="deleteAll">
+		delete tbl_attach where bno = #{bno}
+	</delete>
+	
 	<select id="findByBno" resultType="org.zerock.domain.BoardAttachVO">
 		select * from tbl_attach where bno = #{bno}
 	</select>

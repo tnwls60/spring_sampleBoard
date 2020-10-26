@@ -30,6 +30,7 @@ public class BoardServiceImpl implements BoardService {
 	@Setter(onMethod_ = @Autowired)
 	private BoardAttachMapper attachMapper;
 	
+	
 	@Override
 	public List<BoardAttachVO> getAttachList(Long bno) {
 		
@@ -37,6 +38,20 @@ public class BoardServiceImpl implements BoardService {
 		
 		return attachMapper.findByBno(bno);
 		
+	}
+	
+	
+
+	//첨부파일과 실제 게시물의 삭제 같이 처리
+	@Transactional
+	@Override
+	public boolean remove(Long bno) {
+	
+		log.info("remove...." + bno);
+		
+		attachMapper.deleteAll(bno);
+		
+		return mapper.delete(bno) == 1;
 	}
 	
 	
@@ -72,11 +87,12 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.update(board) == 1;
 	}
 	
-	@Override
+	/*@Override
 	public boolean remove(Long bno) {
 		log.info("remove........" + bno);
 		return mapper.delete(bno) == 1;
 	}
+	*/
 	
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
