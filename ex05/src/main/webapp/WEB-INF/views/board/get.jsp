@@ -5,6 +5,57 @@
 
     <%@include file="../includes/header.jsp" %>
     
+    
+    
+ <style>
+.uploadResult {
+	width: 100%;
+	background-color: gray; 
+}
+
+.uploadResult ul {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+.uploadResult ul li {
+	list-style: none;
+	padding: 10px;
+	align-content: center;
+	text-align: center;
+}
+.uploadResult ul li img {
+	width: 100px;
+}
+.uploadResult ul li span {
+	color: white;
+}
+.bigPictureWrapper {
+	position: absolute;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100;
+	background: rgba(255,255,255,0.5);
+}
+.bicPicture {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bigPicture img {
+	width: 600px;
+}
+</style>
+
+    
  <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Board Read</h1>
@@ -116,6 +167,34 @@
 				<!-- ./ end row -->	
 			</div>
 			
+			<!--첨부파일 -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						
+						<div class="panel-heading">Files</div>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<div class="uploadResult">
+								<ul>
+								</ul>
+							</div>	
+						</div>					
+						<!-- end panel-body -->
+					</div>
+					<!-- end panel-body -->
+				</div>
+				<!-- end panel -->
+			</div>
+			<!-- /.row -->	
+			
+				
+			<div class="bigPictureWrapper">
+				<div class="bigPicture">
+				</div>
+			</div>
+			
+			
 			<!-- modal -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -150,7 +229,11 @@
 						
 					</div> <!-- /.modal-content -->
 				</div> <!-- /.modal-dialog -->
-			</div>	<!-- /.modal -->		            
+			</div>	<!-- /.modal -->		    
+		
+			
+			
+			        
             
             
             <script type="text/javascript" src="/resources/js/reply.js"></script>
@@ -371,7 +454,6 @@
 			 		});
 			 		
 			 		
-			 		
 			 		});	
 			 	});	
 			 
@@ -423,6 +505,88 @@
 						console.log(data);	
 					}); */
 					
+          	</script>
+          	
+          	<script>
+          		
+          	$(document).ready(function(){
+          		
+	          //첨부파일 목록 json타입으로 출력
+		 		(function() {
+		 			var bno = '<c:out value="${board.bno}"/>';
+		 			
+		 			$.getJSON("/board/getAttachList", {bno: bno}, function(arr){
+		 				
+		 				console.log(arr);
+		 				
+		 				var str = "";
+		 				
+		 				$(arr).each(function(i, attach){
+		 					
+		 					//image type
+		 					if(attach.fileType){ 
+		 						var fileCallPath = encodeURIComponent( attach.uploadPath+"/s_"+attach.uuid+"_"+attach.fileName);
+		 						
+		 						str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'><div>";
+		 						str += "<img src='/display?fileName="+fileCallPath+"'>";
+		 						str += "</div>";
+		 						str += "</li>";
+		 					}else{
+		 						
+		 						str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'><div>";
+		 						str += "<span> "+attach.fileName+"</span><br/>";
+		 						str += "<img src='/resources/img/attach.png'>";
+		 						str += "</div>";
+		 						str += "</li>";
+		 					}
+		 				});
+						
+		 				$(".uploadResult ul").html(str);
+		 				
+		 			});//end getjson
+		 		})();//end function
+		 		
+		 		
+		 		//이벤트 처리 - 원본이미지 보여주기, 다운로드
+		 		$(".uploadResult").on("click", "li", function(e){
+		 			
+		 			console.log("view image");
+		 			
+		 			var liObj = $(this);
+		 			
+		 			var path = encodeURIComponent(liObj.data("path")+"/"+liObj.data("uuid")+"_"+liObj.data("filename"));
+		 			
+		 			if(liObj.data("type")){
+		 				showImage(path.replace(new RegExp(/\\/g),"/"));
+		 			}else {
+						//download
+						self.location = "/download?fileName="+path
+		 			}
+		 			
+		 		});
+		 		
+		 		function showImage(fileCallPath){
+					
+		 			alert(fileCallPath);
+		 			
+		 			$(".bigPictureWrapper").css("display", "flex").show();
+		 			
+		 			$(".bigPicture").html("<img src='/display?fileName="+fileCallPath+"'>")
+		 			.animate({width: '100%', height: '100%'}, 1000);
+		 			
+		 		}
+		 		
+		 		//원본이미지 창 닫기
+		 		$(".bigPictureWrapper").on("click", function(e){
+		 			$("bigPicture").animate({width:'0%', height:'0%'}, 1000);
+		 			setTimeout(function(){
+		 				$('.bigPictureWrapper').hide();
+		 			},1000);
+		 		
+		 		});
+	 		
+          	});
+          	
           	</script>
             
             
