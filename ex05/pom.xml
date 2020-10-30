@@ -210,8 +210,24 @@
 		    <version>2.8.2</version>
 		</dependency>
 		<!-- 03-1에서 복사 -->
-			
 		
+		<!-- 첨부파일 삭제 -->
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>2.3.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz-jobs</artifactId>
+		    <version>2.3.0</version>
+		</dependency>
+		<!-- 첨부파일 삭제 -->		
+				
+				
 		
 	</dependencies>
     <build>
