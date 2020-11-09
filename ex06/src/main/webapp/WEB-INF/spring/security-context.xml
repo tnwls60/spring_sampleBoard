@@ -9,12 +9,34 @@
 		
 		<security:http>
 		
-			<security:form-login/>
+			<!-- 접근제한 설정 -->
+			<security:intercept-url pattern="/sample/all" access="permitAll"/>
+			<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
+			<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"/>
+			<!-- 접근제한 설정 -->
+			
+			<!-- <security:access-denied-handler error-page="/accessError"/> -->
+			<!-- error-page속성 대신해서 CustomAccessDeniedHandler를 빈으로 등록해서 사용 -->
+			<security:access-denied-handler ref="customAccessDenied"/>
+			
+			<!-- <security:form-login/>-->
+			<!-- 커스텀 로그인 -->
+			<security:form-login login-page="/customLogin" />
 		
 		</security:http>
 		
 		<security:authentication-manager>
 		
+			<security:authentication-provider>
+				<security:user-service>
+					<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
+					<!-- 두개의 권한 부여 -->
+					<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
+				</security:user-service>
+			</security:authentication-provider>
+		
 		</security:authentication-manager> 
+
+
 
 </beans>
