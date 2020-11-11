@@ -14,7 +14,6 @@
 	<h2><c:out value="${logout }"/></h2>
 
 	<form method="post" action="/login">
-	
 		<div>
 			<input type="text" name="username" value="admin">
 		</div>
@@ -25,7 +24,7 @@
 			<input type="submit">
 		</div>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		
 	</form>
+	
 </body>
 </html>

@@ -7,6 +7,9 @@
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
+		<bean id="customAccessDenied" class="org.zerock.security.CustomAccessDeniedHandler"></bean>
+		<bean id="customLoginSuccess" class="org.zerock.security.CustomLoginSuccessHandler"></bean>
+		
 		<security:http>
 		
 			<!-- 접근제한 설정 -->
@@ -16,12 +19,17 @@
 			<!-- 접근제한 설정 -->
 			
 			<!-- <security:access-denied-handler error-page="/accessError"/> -->
-			<!-- error-page속성 대신해서 CustomAccessDeniedHandler를 빈으로 등록해서 사용 -->
+			<!-- error-page속성 대신해서 ref속성, CustomAccessDeniedHandler를 빈으로 등록해서 사용 -->
 			<security:access-denied-handler ref="customAccessDenied"/>
 			
 			<!-- <security:form-login/>-->
 			<!-- 커스텀 로그인 -->
-			<security:form-login login-page="/customLogin" />
+			<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
+		
+			<!-- <security:csrf disabled="true"/> -->
+			
+			<!-- 로그아웃 -->
+			<security:logout logout-url="/customLogout" invalidate-session="true" />
 		
 		</security:http>
 		
@@ -33,10 +41,13 @@
 					<!-- 두개의 권한 부여 -->
 					<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
 				</security:user-service>
+				
+			<!-- <security:jdbc-user-service data-source-ref="dataSource"/>  -->	
+				
 			</security:authentication-provider>
 		
 		</security:authentication-manager> 
 
-
+		<!-- <context:component-scan base-package="org.zerock.security"></context:component-scan>  -->	
 
 </beans>
