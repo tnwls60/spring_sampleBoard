@@ -34,6 +34,12 @@
 			
 			<!-- 로그아웃 -->
 			<security:logout logout-url="/customLogout" invalidate-session="true" />
+			
+			<!-- 자동로그인 -->
+			<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>
+			
+			<!-- 로그아웃 시 쿠키삭제 -->
+			<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me,JSESSION_ID"/>
 		
 		</security:http>
 		
