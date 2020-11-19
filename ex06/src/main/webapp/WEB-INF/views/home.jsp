@@ -10,5 +10,10 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
+
+<!-- 로그인 후 /board/list로 이동 -->
+<script type="text/javascript">
+	self.location="/board/list";
+</script>
 </body>
 </html>
