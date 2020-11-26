@@ -25,7 +25,8 @@
                         
 							<form role="form" action="/board/register" method="post">
 								<!-- csrf 토큰 적용 -->
-								<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />							
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />	
+														
 								<div class="form-group">
 									<label>Title</label> 
 									<input class="form-control" name='title'>
@@ -257,7 +258,7 @@
 						processData : false,
 						contentType : false, 
 						beforeSend : function(xhr){
-							xhr.setRequestHeader(csrfheaderName, csrfTokenValue);
+							xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 						},
 						data : formData,
 						type : 'POST',

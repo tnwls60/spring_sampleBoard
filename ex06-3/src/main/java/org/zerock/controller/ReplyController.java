@@ -102,6 +102,7 @@ public class ReplyController {
 		public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
 		
 		log.info("remove: " + rno);
+		log.info("replyer: " + vo.getReplyer());
 		
 		return service.remove(rno) == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)

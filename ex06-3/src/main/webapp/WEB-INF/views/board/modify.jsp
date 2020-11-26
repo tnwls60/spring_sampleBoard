@@ -76,7 +76,7 @@
                         
 							<form role="form" action="/board/modify" method="post">
 							<!-- csrf 토큰 적용 -->
-							<<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />		>
+							<<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		>
 								<!-- 추가부분 -->
 								<input type="hidden" name='pageNum' value='<c:out value="${cri.pageNum }"/>'>						
 								<input type="hidden" name='amount' value='<c:out value="${cri.amount}"/>'>						
